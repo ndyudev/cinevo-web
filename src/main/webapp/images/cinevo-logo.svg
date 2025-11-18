@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 743.4 303.99">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #ec008c;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        fill-rule: evenodd;
+      }
+
+      .st1 {
+        fill: #e8639d;
+      }
+
+      .st5 {
+        font-size: 132px;
+        letter-spacing: .02em;
+        stroke: #e53349;
+        stroke-width: 2px;
+      }
+
+      .st5, .st6 {
+        font-family: iCielCrocante, 'iCiel Crocante';
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill: #ed1c24;
+      }
+
+      .st6 {
+        fill: #ed1f24;
+        font-size: 48px;
+        stroke: #000;
+      }
+
+      .st3 {
+        fill: #f6adcd;
+      }
+
+      .st4 {
+        fill: #a54686;
+      }
+    </style>
+  </defs>
+  <polygon class="st2" points="131.63 303.99 65.82 265.99 0 227.99 0 152 0 76 65.82 38 131.63 0 197.45 38 244.26 65.03 206.64 86.75 206.27 86.97 131.63 43.88 38 97.94 38 206.06 131.63 260.11 206.27 217.02 244.26 238.96 197.45 265.99 131.63 303.99"/>
+  <polygon class="st4" points="131.63 216.24 168.27 195.09 93.63 152 168.27 108.91 131.63 87.75 76 119.88 76 184.12 131.63 216.24"/>
+  <polygon class="st1" points="225.27 206.06 225.27 206.06 225.27 97.94 225.27 97.94 187.27 119.88 187.27 184.12 225.27 206.06"/>
+  <polygon class="st3" points="187.27 184.12 131.63 152 187.27 119.88 187.27 184.12"/>
+  <polygon class="st0" points="263.26 227.99 225.27 206.06 225.27 206.06 225.27 97.94 225.27 97.94 263.26 76 263.26 227.99"/>
+  <text class="st6" transform="translate(294.42 227.99)"><tspan x="0" y="0">ENTERTAINMENT</tspan></text>
+  <text class="st5" transform="translate(294.7 166.24)"><tspan x="0" y="0">CINEVO</tspan></text>
+</svg>
