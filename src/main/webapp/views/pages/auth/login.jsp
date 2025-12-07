@@ -7,12 +7,13 @@
                 <div class="card-body p-5">
                     <h2 class="text-center fw-bold mb-4 text-danger">ĐĂNG NHẬP</h2>
 
-                    <!-- Hiển thị thông báo lỗi -->
-                    <c:if test="${not empty error}">
+                    <!-- Hiển thị thông báo lỗi từ session -->
+                    <c:if test="${not empty sessionScope.error}">
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-circle-exclamation me-2"></i>${error}
+                            <i class="fa-solid fa-circle-exclamation me-2"></i>${sessionScope.error}
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
+                        <c:remove var="error" scope="session" />
                     </c:if>
 
                     <!-- Hiển thị thông báo security message -->
@@ -32,7 +33,7 @@
                                         class="fa-solid fa-envelope"></i></span>
                                 <input type="email" name="email"
                                     class="form-control bg-black text-white border-secondary"
-                                    placeholder="name@example.com" value="${email}" required>
+                                    placeholder="name@example.com" value="${param.email}" required>
                             </div>
                         </div>
 

@@ -70,6 +70,12 @@ public class Cinevo extends HttpServlet {
 						
 						if (video != null) {
 							pageTitle = video.getTitle() + " | Cinevo";
+							
+							// Load video liên quan (cùng category)
+							if (video.getCategory() != null) {
+								List<Video> relatedVideos = videoDAO.findRelatedVideos(videoId, video.getCategory().getId(), 10);
+								request.setAttribute("relatedVideos", relatedVideos);
+							}
 						}
 					} catch (NumberFormatException e) {
 						e.printStackTrace();

@@ -14,4 +14,6 @@ public interface VideoDAO extends BaseDAO<Video, Long> {
     List<Video> findFavoriteVideosByUserId(Long userId);
     
     List<Video> findLatest3Videos();
+    
+    List<Video> findRelatedVideos(Long videoId, Integer categoryId, int limit);
 }
