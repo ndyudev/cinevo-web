@@ -12,12 +12,10 @@
                                 <h3 class="text-uppercase fw-bold border-start border-4 border-danger ps-3 mb-0">
                                     Phim Mới Cập Nhật
                                 </h3>
-                                <a href="#" class="text-decoration-none text-danger fw-bold hover-link">Xem tất cả <i
-                                        class="fa-solid fa-angle-right"></i></a>
                             </div>
 
                             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
-                                <c:forEach var="video" items="${allVideos}" begin="0" end="5">
+                                <c:forEach var="video" items="${allVideos}">
                                     <div class="col">
                                         <div class="card bg-transparent border-0 h-100 movie-card">
                                             <div
@@ -48,17 +46,47 @@
                                 </c:forEach>
                             </div>
 
-                            <nav aria-label="Page navigation" class="mt-5">
-                                <ul class="pagination justify-content-center custom-pagination">
-                                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i
-                                                class="fa-solid fa-chevron-left"></i></a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><i
-                                                class="fa-solid fa-chevron-right"></i></a></li>
-                                </ul>
-                            </nav>
+                            <!-- Pagination -->
+                            <c:if test="${totalPages > 1}">
+                                <nav aria-label="Page navigation" class="mt-5">
+                                    <ul class="pagination justify-content-center custom-pagination">
+                                        <!-- Previous Button -->
+                                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                                href="${pageContext.request.contextPath}/cinevo/user?page=${currentPage - 1}${selectedCategoryId != null ? '&categoryId='.concat(selectedCategoryId) : ''}${selectedYear != null ? '&year='.concat(selectedYear) : ''}"
+                                                tabindex="-1">
+                                                <i class="fa-solid fa-chevron-left"></i>
+                                            </a>
+                                        </li>
+
+                                        <!-- Page Numbers -->
+                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                            <c:if
+                                                test="${i == 1 || i == totalPages || (i >= currentPage - 2 && i <= currentPage + 2)}">
+                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                    <a class="page-link"
+                                                        href="${pageContext.request.contextPath}/cinevo/user?page=${i}${selectedCategoryId != null ? '&categoryId='.concat(selectedCategoryId) : ''}${selectedYear != null ? '&year='.concat(selectedYear) : ''}">
+                                                        ${i}
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${i == currentPage - 3 || i == currentPage + 3}">
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">...</span>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+
+                                        <!-- Next Button -->
+                                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                                href="${pageContext.request.contextPath}/cinevo/user?page=${currentPage + 1}${selectedCategoryId != null ? '&categoryId='.concat(selectedCategoryId) : ''}${selectedYear != null ? '&year='.concat(selectedYear) : ''}">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </c:if>
                         </div>
 
                         <div class="col-lg-4">
@@ -85,21 +113,49 @@
                                         <button class="nav-link text-secondary" id="month-tab" data-bs-toggle="tab"
                                             data-bs-target="#month" type="button">Tháng</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link text-secondary" id="all-tab" data-bs-toggle="tab"
-                                            data-bs-target="#all" type="button">Tất cả</button>
-                                    </li>
                                 </ul>
 
                                 <div class="tab-content" id="myTabContent">
 
                                     <div class="tab-pane fade" id="day" role="tabpanel">
-                                        <p class="text-secondary text-center mt-4">Chưa có dữ liệu ngày.</p>
+                                        <div class="row row-cols-2 g-3">
+                                            <c:forEach var="video" items="${top4Today}">
+                                                <div class="col">
+                                                    <div class="card bg-transparent border-0 h-100 movie-card">
+                                                        <div
+                                                            class="ratio ratio-16x9 overflow-hidden rounded shadow-sm position-relative">
+                                                            <img src="${video.posterUrl}" class="card-img-top"
+                                                                alt="${video.title}">
+                                                            <div
+                                                                class="movie-overlay d-flex align-items-center justify-content-center">
+                                                                <a href="${pageContext.request.contextPath}/cinevo/user?tab=video-detail&id=${video.id}"
+                                                                    class="btn btn-danger rounded-circle btn-lg play-btn">
+                                                                    <i class="fa-solid fa-play"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body px-0 pt-3">
+                                                            <h6
+                                                                class="card-title text-white fw-bold text-truncate font-sm">
+                                                                ${video.title}</h6>
+                                                            <div
+                                                                class="d-flex justify-content-between text-secondary font-xs">
+                                                                <span>${video.releaseYear}</span>
+                                                                <span>
+                                                                    <fmt:formatNumber value="${video.views}"
+                                                                        pattern="#,###" /> views
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
                                     </div>
 
                                     <div class="tab-pane fade show active" id="week" role="tabpanel">
                                         <div class="row row-cols-2 g-3">
-                                            <c:forEach var="video" items="${top10Videos}" begin="0" end="3">
+                                            <c:forEach var="video" items="${top4Week}">
                                                 <div class="col">
                                                     <div class="card bg-transparent border-0 h-100 movie-card">
                                                         <div
@@ -134,12 +190,8 @@
                                     </div>
 
                                     <div class="tab-pane fade" id="month" role="tabpanel">
-                                        <p class="text-secondary text-center mt-4">Chưa có dữ liệu tháng.</p>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="all" role="tabpanel">
                                         <div class="row row-cols-2 g-3">
-                                            <c:forEach var="video" items="${top10Videos}">
+                                            <c:forEach var="video" items="${top4Month}">
                                                 <div class="col">
                                                     <div class="card bg-transparent border-0 h-100 movie-card">
                                                         <div

@@ -3,9 +3,15 @@ package com.cinevo.servlet.admin;
 import java.io.IOException;
 import java.util.List;
 
+import com.cinevo.dao.CategoryDAO;
 import com.cinevo.dao.UserDAO;
+import com.cinevo.dao.VideoDAO;
+import com.cinevo.dao.impl.CategoryDAOImpl;
 import com.cinevo.dao.impl.UserDAOImpl;
+import com.cinevo.dao.impl.VideoDAOImpl;
+import com.cinevo.entity.Category;
 import com.cinevo.entity.User;
+import com.cinevo.entity.Video;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,12 +39,23 @@ public class AdminCinevo extends HttpServlet {
 		}
 
 	switch (tab) {
-		case "video":
+		case "videos":
+			VideoDAO videoDAO = new VideoDAOImpl();
+			CategoryDAO categoryDAO = new CategoryDAOImpl();
+			List<Video> videos = videoDAO.findAll();
+			List<Category> categories = categoryDAO.findAll();
+			request.setAttribute("videos", videos);
+			request.setAttribute("categories", categories);
+			request.setAttribute("form", new Video());
 			view = "/views/pages/admin/video-management.jsp"; 
 			pageTitle = "Quản lý Video";
 			break;
 			
 		case "category":
+			CategoryDAO categoryDAO2 = new CategoryDAOImpl();
+			List<Category> categories2 = categoryDAO2.findAll();
+			request.setAttribute("categories", categories2);
+			request.setAttribute("form", new Category());
 			view = "/views/pages/admin/category-management.jsp"; 
 			pageTitle = "Quản lý Danh mục";
 			break;

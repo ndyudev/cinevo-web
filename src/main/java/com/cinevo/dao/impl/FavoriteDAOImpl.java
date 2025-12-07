@@ -132,7 +132,10 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 			TypedQuery<Favorite> query = em.createQuery(jpql, Favorite.class);
 			query.setParameter("userId", userId);
 			query.setParameter("videoId", videoId);
-			favorite = query.getSingleResult();
+			List<Favorite> results = query.getResultList();
+			if (!results.isEmpty()) {
+				favorite = results.get(0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

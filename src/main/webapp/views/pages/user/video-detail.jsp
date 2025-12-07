@@ -60,23 +60,27 @@
                                     <c:choose>
                                         <c:when test="${not empty sessionScope.user}">
                                             <c:if test="${!sessionScope.user.isAdmin}">
-                                                <button class="btn btn-danger px-4 py-2 shadow-sm" id="likeBtn">
-                                                    <i class="fa-solid fa-heart me-2"></i> Yêu thích
-                                                </button>
-                                                <button class="btn btn-outline-light px-4 py-2" id="shareBtn">
+                                                <form action="${pageContext.request.contextPath}/api/like-video"
+                                                    method="post" class="d-inline">
+                                                    <input type="hidden" name="videoId" value="${video.id}">
+                                                    <button type="submit"
+                                                        class="btn ${isLiked ? 'btn-danger' : 'btn-outline-danger'} px-4 py-2 shadow-sm">
+                                                        <i
+                                                            class="fa-${isLiked ? 'solid' : 'regular'} fa-heart me-2"></i>
+                                                        ${isLiked ? 'Đã thích' : 'Yêu thích'}
+                                                    </button>
+                                                </form>
+                                                <button class="btn btn-outline-light px-4 py-2" data-bs-toggle="modal"
+                                                    data-bs-target="#shareModal">
                                                     <i class="fa-solid fa-share-nodes me-2"></i> Chia sẻ
                                                 </button>
                                             </c:if>
                                         </c:when>
                                         <c:otherwise>
-                                            <button class="btn btn-danger px-4 py-2 shadow-sm"
-                                                onclick="alert('Vui lòng đăng nhập để sử dụng chức năng này!'); window.location.href='${pageContext.request.contextPath}/cinevo/user?tab=login'">
+                                            <a href="${pageContext.request.contextPath}/cinevo/user?tab=login"
+                                                class="btn btn-danger px-4 py-2 shadow-sm">
                                                 <i class="fa-solid fa-heart me-2"></i> Yêu thích
-                                            </button>
-                                            <button class="btn btn-outline-light px-4 py-2"
-                                                onclick="alert('Vui lòng đăng nhập để sử dụng chức năng này!'); window.location.href='${pageContext.request.contextPath}/cinevo/user?tab=login'">
-                                                <i class="fa-solid fa-share-nodes me-2"></i> Chia sẻ
-                                            </button>
+                                            </a>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -114,66 +118,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Bình luận section - TẠM THỜI TẮT (chức năng chưa có) -->
-                            <!-- 
-                        <div
-                            class="comments-section bg-black bg-opacity-25 p-4 rounded border border-secondary border-opacity-25">
-                            <h5 class="fw-bold mb-4 border-start border-4 border-danger ps-3">
-                                <i class="fa-solid fa-comments me-2"></i> Bình luận (142)
-                            </h5>
-
-                            <div class="mb-4">
-                                <textarea class="form-control bg-dark text-white border-secondary" rows="3"
-                                    placeholder="Viết bình luận của bạn..."></textarea>
-                                <button class="btn btn-danger mt-2 px-4">
-                                    <i class="fa-solid fa-paper-plane me-2"></i> Gửi
-                                </button>
-                            </div>
-
-                            <div
-                                class="comment-item d-flex gap-3 mb-3 pb-3 border-bottom border-secondary border-opacity-25">
-                                <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center"
-                                    style="width: 45px; height: 45px; flex-shrink: 0;">
-                                    <i class="fa-solid fa-user text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <h6 class="mb-0 fw-bold text-white">Nguyễn Văn A</h6>
-                                        <small class="text-secondary">2 giờ trước</small>
-                                    </div>
-                                    <p class="text-secondary mb-2">Phim hay quá! John Wick phần này đỉnh cao hành động.
-                                        Cảnh quay mãn nhãn.</p>
-                                    <button class="btn btn-sm btn-outline-secondary border-0 px-2">
-                                        <i class="fa-solid fa-thumbs-up me-1"></i> 24
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="comment-item d-flex gap-3 mb-3 pb-3 border-bottom border-secondary border-opacity-25">
-                                <div class="rounded-circle bg-secondary d-flex justify-content-center align-items-center"
-                                    style="width: 45px; height: 45px; flex-shrink: 0;">
-                                    <i class="fa-solid fa-user text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <h6 class="mb-0 fw-bold text-white">Trần Thị B</h6>
-                                        <small class="text-secondary">1 ngày trước</small>
-                                    </div>
-                                    <p class="text-secondary mb-2">Keanu Reeves xuất sắc. Mãi xem không chán 🔥</p>
-                                    <button class="btn btn-sm btn-outline-secondary border-0 px-2">
-                                        <i class="fa-solid fa-thumbs-up me-1"></i> 15
-                                    </button>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-outline-light btn-sm w-100 mt-3">
-                                <i class="fa-solid fa-angle-down me-2"></i> Xem thêm bình luận
-                            </button>
-                        </div>
-                        -->
-
                         </div>
 
                         <!-- Cột phụ: Phim liên quan -->
@@ -347,35 +291,38 @@
                 }
             </style>
 
-            <script>
-                // Like button functionality
-                document.getElementById('likeBtn').addEventListener('click', function () {
-                    const icon = this.querySelector('i');
-                    if (icon.classList.contains('fa-solid')) {
-                        icon.classList.remove('fa-solid');
-                        icon.classList.add('fa-regular');
-                        this.classList.remove('btn-danger');
-                        this.classList.add('btn-outline-danger');
-                    } else {
-                        icon.classList.remove('fa-regular');
-                        icon.classList.add('fa-solid');
-                        this.classList.remove('btn-outline-danger');
-                        this.classList.add('btn-danger');
-                    }
-                });
-
-                // Share button functionality
-                document.getElementById('shareBtn').addEventListener('click', function () {
-                    if (navigator.share) {
-                        navigator.share({
-                            title: document.querySelector('h2').textContent,
-                            url: window.location.href
-                        });
-                    } else {
-                        // Fallback: copy URL to clipboard
-                        navigator.clipboard.writeText(window.location.href).then(() => {
-                            alert('Đã sao chép link vào clipboard!');
-                        });
-                    }
-                });
-            </script>
+            <!-- Share Modal -->
+            <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-dark text-white border-secondary">
+                        <div class="modal-header border-secondary">
+                            <h5 class="modal-title" id="shareModalLabel">
+                                <i class="fa-solid fa-share-nodes me-2 text-danger"></i>Chia sẻ video
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="${pageContext.request.contextPath}/api/share-video" method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="videoId" value="${video.id}">
+                                <div class="mb-3">
+                                    <label class="form-label">Email người nhận <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" name="toEmail"
+                                        class="form-control bg-black text-white border-secondary"
+                                        placeholder="example@email.com" required>
+                                </div>
+                                <div class="alert alert-info bg-black border-secondary text-white-50">
+                                    <i class="fa-solid fa-info-circle me-2"></i>
+                                    Link video sẽ được gửi kèm tên của bạn đến email này.
+                                </div>
+                            </div>
+                            <div class="modal-footer border-secondary">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Gửi
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>

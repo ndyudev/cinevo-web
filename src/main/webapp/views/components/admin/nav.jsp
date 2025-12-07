@@ -13,8 +13,8 @@
                     </li>
 
                     <li class="nav-item mx-1">
-                        <a href="${pageContext.request.contextPath}/cinevo/admin?tab=video"
-                            class="nav-link ${param.tab == 'video' ? 'active bg-danger' : 'text-white'}">
+                        <a href="${pageContext.request.contextPath}/cinevo/admin?tab=videos"
+                            class="nav-link ${param.tab == 'videos' ? 'active bg-danger' : 'text-white'}">
                             Quản lý Video
                         </a>
                     </li>
