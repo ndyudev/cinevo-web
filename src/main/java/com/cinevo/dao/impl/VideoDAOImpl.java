@@ -177,4 +177,23 @@ public class VideoDAOImpl implements VideoDAO {
 		}
 		return list;
 	}
+
+	@Override
+	public List<Video> findRelatedVideos(Long videoId, Integer categoryId, int limit) {
+		String jpql = "SELECT v FROM Video v LEFT JOIN FETCH v.category WHERE v.id != :videoId AND v.category.id = :categoryId ORDER BY v.views DESC";
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = null;
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql, Video.class);
+			query.setParameter("videoId", videoId);
+			query.setParameter("categoryId", categoryId);
+			query.setMaxResults(limit);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
 }

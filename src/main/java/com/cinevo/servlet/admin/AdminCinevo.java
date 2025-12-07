@@ -1,6 +1,11 @@
 package com.cinevo.servlet.admin;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.cinevo.dao.UserDAO;
+import com.cinevo.dao.impl.UserDAOImpl;
+import com.cinevo.entity.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -39,6 +44,10 @@ public class AdminCinevo extends HttpServlet {
 			break;
 			
 		case "users":
+			UserDAO userDAO = new UserDAOImpl();
+			List<User> users = userDAO.findAll();
+			request.setAttribute("users", users);
+			request.setAttribute("form", new User());
 			view = "/views/pages/admin/user-management.jsp"; 
 			pageTitle = "Quản lý Tài khoản";
 			break;

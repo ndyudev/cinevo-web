@@ -41,9 +41,8 @@ public class LoginServlet extends HttpServlet {
 		
 		// Validate input
 		if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-			request.setAttribute("error", "Email và mật khẩu không được để trống!");
-			request.setAttribute("email", email);
-			request.getRequestDispatcher("/views/pages/auth/login.jsp").forward(request, response);
+			request.getSession().setAttribute("error", "Email và mật khẩu không được để trống!");
+			response.sendRedirect(request.getContextPath() + "/cinevo/user?tab=login&email=" + email);
 			return;
 		}
 		
@@ -51,17 +50,15 @@ public class LoginServlet extends HttpServlet {
 		User user = userDAO.findByEmail(email);
 		
 		if (user == null) {
-			request.setAttribute("error", "Email không tồn tại!");
-			request.setAttribute("email", email);
-			request.getRequestDispatcher("/views/pages/auth/login.jsp").forward(request, response);
+			request.getSession().setAttribute("error", "Email không tồn tại!");
+			response.sendRedirect(request.getContextPath() + "/cinevo/user?tab=login&email=" + email);
 			return;
 		}
 		
 		// Kiểm tra mật khẩu
 		if (!user.getPassword().equals(password)) {
-			request.setAttribute("error", "Mật khẩu không đúng!");
-			request.setAttribute("email", email);
-			request.getRequestDispatcher("/views/pages/auth/login.jsp").forward(request, response);
+			request.getSession().setAttribute("error", "Mật khẩu không đúng!");
+			response.sendRedirect(request.getContextPath() + "/cinevo/user?tab=login&email=" + email);
 			return;
 		}
 		
