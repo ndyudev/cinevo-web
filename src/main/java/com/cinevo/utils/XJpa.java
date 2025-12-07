@@ -10,7 +10,7 @@ public class XJpa {
 
 	static {
 		try {
-			factory = Persistence.createEntityManagerFactory("Cinevo_web");
+			factory = Persistence.createEntityManagerFactory("cinevo_web");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

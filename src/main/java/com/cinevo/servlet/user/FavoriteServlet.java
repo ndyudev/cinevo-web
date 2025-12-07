@@ -40,7 +40,7 @@ public class FavoriteServlet extends HttpServlet {
 		
 		// Load danh sách video yêu thích
 		// TODO: Implement
-		
+		request.setAttribute("favoriteList", favoriteDAO.findByUserId(user.getId()));
 		request.setAttribute("view", "/views/pages/user/favorite.jsp");
 		request.setAttribute("pageTitle", "Video yêu thích");
 		request.getRequestDispatcher("/views/layouts/user/layoutUser.jsp").forward(request, response);
@@ -49,9 +49,23 @@ public class FavoriteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		// Thêm/xóa video yêu thích
-		// TODO: Implement
-		
-		doGet(request, response);
+		HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/cinevo/user?tab=login");
+            return;
+        }
+
+        String action = request.getParameter("action");
+        String videoIdStr = request.getParameter("videoId");
+        Long videoId = Long.parseLong(videoIdStr);
+
+        if ("add".equals(action)) {
+            favoriteDAO.addFavorite(user.getId(), videoId);
+        } else if ("remove".equals(action)) {
+            favoriteDAO.removeFavorite(user.getId(), videoId);
+        }
+
+        response.sendRedirect(request.getContextPath() + "/user/favorite");
 	}
 }

@@ -17,11 +17,44 @@ import lombok.NoArgsConstructor;
 @Table(name = "Categories")
 public class Category {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	private Integer id;
 
-	@Column(name = "Name", columnDefinition = "NVARCHAR(50)")
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Integer id;
+
+    @Column(name = "Name", columnDefinition = "NVARCHAR(50)")
+    private String name;
+
+    // ----- Constructors -----
+    public Category() {
+    }
+
+    public Category(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // ----- Getters & Setters -----
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // ----- Optional: toString() -----
+    @Override
+    public String toString() {
+        return "Category{id=" + id + ", name='" + name + "'}";
+    }
 }

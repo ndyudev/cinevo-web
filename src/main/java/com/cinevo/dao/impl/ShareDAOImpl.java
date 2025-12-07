@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import com.cinevo.dao.ShareDAO;
 import com.cinevo.entity.Share;
+import com.cinevo.entity.User;
+import com.cinevo.entity.Video;
 import com.cinevo.utils.XJpa;
 
 public class ShareDAOImpl implements ShareDAO {
@@ -37,19 +39,24 @@ public class ShareDAOImpl implements ShareDAO {
 
 	@Override
 	public void create(Share entity) {
-		EntityManager em = XJpa.getEntityManager();
-		try {
-			em.getTransaction().begin();
-			em.persist(entity);
-			em.getTransaction().commit();
-		} catch (Exception e) {
-			if (em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
-			throw e;
-		} finally {
-			em.close();
-		}
+	    EntityManager em = XJpa.getEntityManager();
+	    try {
+	        em.getTransaction().begin();
+
+	        // Load User & Video thành managed entity
+	        entity.setUser(em.find(User.class, entity.getUser().getId()));
+	        entity.setVideo(em.find(Video.class, entity.getVideo().getId()));
+
+	        em.persist(entity);
+	        em.getTransaction().commit();
+	    } catch (Exception e) {
+	        if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback();
+	        }
+	        throw e;
+	    } finally {
+	        em.close();
+	    }
 	}
 
 	@Override

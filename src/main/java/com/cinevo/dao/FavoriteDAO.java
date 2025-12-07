@@ -12,4 +12,8 @@ public interface FavoriteDAO extends BaseDAO<Favorite, Long> {
     Favorite findByUserIdAndVideoId(Long userId, Long videoId);
     
     void deleteByUserIdAndVideoId(Long userId, Long videoId);
+    
+    void addFavorite(Long userId, Long videoId);
+    
+    void removeFavorite(Long userId, Long videoId);
 }

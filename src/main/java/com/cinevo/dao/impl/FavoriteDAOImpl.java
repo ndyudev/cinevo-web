@@ -1,10 +1,13 @@
 package com.cinevo.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import com.cinevo.dao.FavoriteDAO;
 import com.cinevo.entity.Favorite;
+import com.cinevo.entity.User;
+import com.cinevo.entity.Video;
 import com.cinevo.utils.XJpa;
 
 public class FavoriteDAOImpl implements FavoriteDAO {
@@ -164,4 +167,45 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 			em.close();
 		}
 	}
+	
+	@Override
+    public void addFavorite(Long userId, Long videoId) {
+        EntityManager em = XJpa.getEntityManager();   
+        try {
+        	em.getTransaction().begin();
+            User user = em.find(User.class, userId);
+            Video video = em.find(Video.class, videoId);
+            Favorite favorite = new Favorite();
+            favorite.setUser(user);
+            favorite.setVideo(video);
+            favorite.setLikeDate(new Date());
+            em.persist(favorite);
+            em.getTransaction().commit();
+        } catch(Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public void removeFavorite(Long userId, Long videoId) {
+    	EntityManager em = XJpa.getEntityManager();   
+        try {
+        	em.getTransaction().begin();
+            Favorite fav = em.createQuery(
+                "SELECT f FROM Favorite f WHERE f.user.id = :uid AND f.video.id = :vid", Favorite.class)
+                .setParameter("uid", userId)
+                .setParameter("vid", videoId)
+                .getSingleResult();
+            if (fav != null) em.remove(fav);
+            em.getTransaction().commit();
+        } catch(Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+    }
+	
 }

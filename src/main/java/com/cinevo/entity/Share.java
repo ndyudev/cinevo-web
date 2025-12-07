@@ -23,23 +23,84 @@ import lombok.NoArgsConstructor;
 @Table(name = "Shares")
 public class Share {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "UserId")
-	private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "VideoId")
-	private Video video;
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    private User user;
 
-	@Column(name = "SharedToEmail", columnDefinition = "NVARCHAR(100)")
-	private String sharedToEmail;
+    @ManyToOne
+    @JoinColumn(name = "VideoId")
+    private Video video;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ShareDate")
-	private Date shareDate;
+    @Column(name = "SharedToEmail", columnDefinition = "NVARCHAR(100)")
+    private String sharedToEmail;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ShareDate")
+    private Date shareDate;
+
+    // ----- Constructors -----
+    public Share() {
+    }
+
+    public Share(Long id, User user, Video video, String sharedToEmail, Date shareDate) {
+        this.id = id;
+        this.user = user;
+        this.video = video;
+        this.sharedToEmail = sharedToEmail;
+        this.shareDate = shareDate;
+    }
+
+    // ----- Getters & Setters -----
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public void setVideo(Video video) {
+        this.video = video;
+    }
+
+    public String getSharedToEmail() {
+        return sharedToEmail;
+    }
+
+    public void setSharedToEmail(String sharedToEmail) {
+        this.sharedToEmail = sharedToEmail;
+    }
+
+    public Date getShareDate() {
+        return shareDate;
+    }
+
+    public void setShareDate(Date shareDate) {
+        this.shareDate = shareDate;
+    }
+
+    // ----- Optional: toString() -----
+    @Override
+    public String toString() {
+        return "Share{id=" + id + ", user=" + user + ", video=" + video +
+               ", sharedToEmail='" + sharedToEmail + "', shareDate=" + shareDate + "}";
+    }
 }
