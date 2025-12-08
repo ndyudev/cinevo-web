@@ -8,7 +8,6 @@
                 <a class="navbar-brand d-flex align-items-center"
                     href="${pageContext.request.contextPath}/cinevo/admin">
                     <img src="${pageContext.request.contextPath}/images/cinevo-logo.svg" alt="Cinevo" width="150px">
-                    <span class="badge bg-danger ms-2">ADMIN</span>
                 </a>
 
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
@@ -18,12 +17,6 @@
 
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav ms-auto me-3">
-                        <li class="nav-item">
-                            <span class="nav-link text-white-50">
-                                <i class="fa-solid fa-shield-halved me-1 text-danger"></i>
-                                Trang quản trị
-                            </span>
-                        </li>
                     </ul>
 
                     <div class="d-flex align-items-center gap-3">

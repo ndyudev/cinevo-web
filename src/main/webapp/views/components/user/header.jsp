@@ -23,8 +23,12 @@
                                 <i class="fa-solid fa-list-ul me-1"></i> Thể loại
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark shadow fade-down rounded-0 p-0 border-0">
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cinevo/user">Tất
+                                        cả thể loại</a></li>
                                 <c:forEach var="category" items="${categories}">
-                                    <li><a class="dropdown-item" href="#">${category.name}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="${pageContext.request.contextPath}/cinevo/user?categoryId=${category.id}">${category.name}</a>
+                                    </li>
                                 </c:forEach>
                             </ul>
                         </li>
@@ -36,11 +40,14 @@
                             </a>
                             <ul
                                 class="dropdown-menu dropdown-menu-dark shadow fade-down scrollable-menu rounded-0 p-0 border-0">
-
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cinevo/user">Tất
+                                        cả năm</a></li>
                                 <c:forEach var="year" begin="0" end="35">
                                     <c:set var="currentYear" value="${2025 - year}" />
                                     <li>
-                                        <a class="dropdown-item" href="#">Năm ${currentYear}</a>
+                                        <a class="dropdown-item"
+                                            href="${pageContext.request.contextPath}/cinevo/user?year=${currentYear}">Năm
+                                            ${currentYear}</a>
                                     </li>
                                 </c:forEach>
 
@@ -59,10 +66,12 @@
                     </ul>
 
                     <div class="d-flex align-items-center gap-3">
-                        <form class="d-flex" role="search">
+                        <form class="d-flex" role="search" action="${pageContext.request.contextPath}/cinevo/user"
+                            method="get">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control bg-dark text-white border-secondary"
-                                    placeholder="Tìm phim..." style="width: 200px;">
+                                <input type="text" name="search"
+                                    class="form-control bg-dark text-white border-secondary"
+                                    placeholder="Tìm phim, đạo diễn..." value="${param.search}" style="width: 200px;">
                                 <button class="btn btn-danger text-white" type="submit">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>

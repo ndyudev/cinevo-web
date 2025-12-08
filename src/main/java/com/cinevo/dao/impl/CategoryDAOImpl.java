@@ -23,7 +23,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public List<Category> findAll() {
-		String jpql = "SELECT c FROM Category c";
+		String jpql = "SELECT c FROM Category c ORDER BY c.id ASC";
 		EntityManager em = XJpa.getEntityManager();
 		List<Category> list = null;
 		try {
@@ -99,7 +99,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 		try {
 			TypedQuery<Category> query = em.createQuery(jpql, Category.class);
 			query.setParameter("name", name);
-			category = query.getSingleResult();
+			List<Category> list = query.getResultList();
+			if (!list.isEmpty()) {
+				category = list.get(0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

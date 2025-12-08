@@ -196,4 +196,160 @@ public class VideoDAOImpl implements VideoDAO {
 		}
 		return list;
 	}
+
+	@Override
+	public List<Video> findByFilters(Integer categoryId, Integer year, String search, int page, int pageSize) {
+		StringBuilder jpql = new StringBuilder("SELECT v FROM Video v LEFT JOIN FETCH v.category WHERE 1=1");
+		
+		if (categoryId != null && categoryId > 0) {
+			jpql.append(" AND v.category.id = :categoryId");
+		}
+		
+		if (year != null && year > 0) {
+			jpql.append(" AND v.releaseYear = :year");
+		}
+		
+		if (search != null && !search.trim().isEmpty()) {
+			jpql.append(" AND (LOWER(v.title) LIKE :search OR LOWER(v.director) LIKE :search)");
+		}
+		
+		jpql.append(" ORDER BY v.uploadedDate DESC");
+		
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = new ArrayList<>();
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql.toString(), Video.class);
+			
+			if (categoryId != null && categoryId > 0) {
+				query.setParameter("categoryId", categoryId);
+			}
+			
+			if (year != null && year > 0) {
+				query.setParameter("year", year);
+			}
+			
+			if (search != null && !search.trim().isEmpty()) {
+				query.setParameter("search", "%" + search.toLowerCase().trim() + "%");
+			}
+			
+			query.setFirstResult((page - 1) * pageSize);
+			query.setMaxResults(pageSize);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
+
+	@Override
+	public long countByFilters(Integer categoryId, Integer year, String search) {
+		StringBuilder jpql = new StringBuilder("SELECT COUNT(v) FROM Video v WHERE 1=1");
+		
+		if (categoryId != null && categoryId > 0) {
+			jpql.append(" AND v.category.id = :categoryId");
+		}
+		
+		if (year != null && year > 0) {
+			jpql.append(" AND v.releaseYear = :year");
+		}
+		
+		if (search != null && !search.trim().isEmpty()) {
+			jpql.append(" AND (LOWER(v.title) LIKE :search OR LOWER(v.director) LIKE :search)");
+		}
+		
+		EntityManager em = XJpa.getEntityManager();
+		long count = 0;
+		try {
+			TypedQuery<Long> query = em.createQuery(jpql.toString(), Long.class);
+			
+			if (categoryId != null && categoryId > 0) {
+				query.setParameter("categoryId", categoryId);
+			}
+			
+			if (year != null && year > 0) {
+				query.setParameter("year", year);
+			}
+			
+			if (search != null && !search.trim().isEmpty()) {
+				query.setParameter("search", "%" + search.toLowerCase().trim() + "%");
+			}
+			
+			count = query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return count;
+	}
+
+	@Override
+	public List<Video> findTop4ByViewsToday() {
+		String jpql = "SELECT v FROM Video v LEFT JOIN FETCH v.category WHERE CAST(v.uploadedDate AS date) = CURRENT_DATE ORDER BY v.views DESC";
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = new ArrayList<>();
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql, Video.class);
+			query.setMaxResults(4);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Video> findTop4ByViewsThisWeek() {
+		String jpql = "SELECT v FROM Video v LEFT JOIN FETCH v.category WHERE v.uploadedDate >= CURRENT_DATE - 7 ORDER BY v.views DESC";
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = new ArrayList<>();
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql, Video.class);
+			query.setMaxResults(4);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Video> findTop4ByViewsThisMonth() {
+		String jpql = "SELECT v FROM Video v LEFT JOIN FETCH v.category WHERE v.uploadedDate >= CURRENT_DATE - 30 ORDER BY v.views DESC";
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = new ArrayList<>();
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql, Video.class);
+			query.setMaxResults(4);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Video> findTop4ByViewsAllTime() {
+		String jpql = "SELECT v FROM Video v LEFT JOIN FETCH v.category ORDER BY v.views DESC";
+		EntityManager em = XJpa.getEntityManager();
+		List<Video> list = new ArrayList<>();
+		try {
+			TypedQuery<Video> query = em.createQuery(jpql, Video.class);
+			query.setMaxResults(4);
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return list;
+	}
 }

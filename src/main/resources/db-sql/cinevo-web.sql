@@ -2,8 +2,6 @@
 CREATE DATABASE Cinevo_web;
 GO
 USE Cinevo_web;
-USE QLDA2034
-;
 GO
 
 -- 1. Bảng Users
@@ -128,7 +126,7 @@ GO
 -- Thêm 20 record cho Videos
 INSERT INTO Videos (Title, [Description], PosterUrl, VideoUrl, Director, ReleaseYear, CategoryId, [Views])
 VALUES
-(N'Avengers: Endgame', N'Cuộc chiến cuối cùng chống Thanos.', 'https://img.youtube.com/vi/FQtiYJZ9FPs/maxresdefault.jpg', 'https://www.youtube.com/embed/FQtiYJZ9FPs', N'Anthony Russo', 2019, 1, 15000000),
+(N'Avengers: Endgame', N'Cuộc chiến cuối cùng chống Thanos.', 'https://img.youtube.com/vi/pmN3kieZKak/maxresdefault.jpg', 'https://www.youtube.com/embed/pmN3kieZKak', N'Anthony Russo', 2019, 1, 15000000),
 (N'Indiana Jones', N'Nhà thám hiểm săn kho báu.', 'https://img.youtube.com/vi/pmN3kieZKak/maxresdefault.jpg', 'https://www.youtube.com/embed/pmN3kieZKak', N'Steven Spielberg', 1981, 2, 8500000),
 (N'The Conjuring', N'Gia đình bị ma ám.', 'https://img.youtube.com/vi/4H2Ui3ZKy7s/maxresdefault.jpg', 'https://www.youtube.com/embed/4H2Ui3ZKy7s', N'James Wan', 2013, 3, 6200000),
 (N'Deadpool', N'Siêu anh hùng hài hước.', 'https://img.youtube.com/vi/ZIM1HydF9UA/maxresdefault.jpg', 'https://www.youtube.com/embed/ZIM1HydF9UA', N'Tim Miller', 2016, 4, 9800000),

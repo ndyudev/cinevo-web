@@ -8,10 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
-import com.cinevo.dao.FavoriteDAO;
-import com.cinevo.dao.impl.FavoriteDAOImpl;
+import com.cinevo.dao.VideoDAO;
+import com.cinevo.dao.impl.VideoDAOImpl;
 import com.cinevo.entity.User;
+import com.cinevo.entity.Video;
 
 /**
  * Servlet xử lý chức năng yêu thích video
@@ -19,11 +21,11 @@ import com.cinevo.entity.User;
 @WebServlet({"/user/favorite", "/user/favorite/*"})
 public class FavoriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private FavoriteDAO favoriteDAO;
+	private VideoDAO videoDAO;
        
     public FavoriteServlet() {
         super();
-        favoriteDAO = new FavoriteDAOImpl();
+        videoDAO = new VideoDAOImpl();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -39,7 +41,8 @@ public class FavoriteServlet extends HttpServlet {
 		}
 		
 		// Load danh sách video yêu thích
-		// TODO: Implement
+		List<Video> favoriteVideos = videoDAO.findFavoriteVideosByUserId(user.getId());
+		request.setAttribute("favoriteVideos", favoriteVideos);
 		
 		request.setAttribute("view", "/views/pages/user/favorite.jsp");
 		request.setAttribute("pageTitle", "Video yêu thích");

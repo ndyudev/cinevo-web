@@ -8,18 +8,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
+import com.cinevo.dao.ShareDAO;
+import com.cinevo.dao.impl.ShareDAOImpl;
+import com.cinevo.entity.Share;
 import com.cinevo.entity.User;
 
 /**
- * Servlet xử lý chức năng chia sẻ video
+ * Servlet hiển thị danh sách video đã share
  */
-@WebServlet({"/user/share", "/user/share/*"})
-public class ShareServlet extends HttpServlet {
+@WebServlet("/user/share")
+public class ShareHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ShareDAO shareDAO;
        
-    public ShareServlet() {
+    public ShareHistoryServlet() {
         super();
+        shareDAO = new ShareDAOImpl();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -34,20 +40,17 @@ public class ShareServlet extends HttpServlet {
 			return;
 		}
 		
-		// Load danh sách chia sẻ
-		// TODO: Implement
+		// Load danh sách share của user
+		List<Share> shares = shareDAO.findByUserId(user.getId());
+		request.setAttribute("shares", shares);
 		
 		request.setAttribute("view", "/views/pages/user/share.jsp");
-		request.setAttribute("pageTitle", "Video đã chia sẻ");
+		request.setAttribute("pageTitle", "Lịch sử chia sẻ");
 		request.getRequestDispatcher("/views/layouts/user/layoutUser.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		
-		// Chia sẻ video qua email
-		// TODO: Implement
-		
 		doGet(request, response);
 	}
 }

@@ -97,10 +97,22 @@
                                         value="${form.fullname}">
                                 </div>
 
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" name="isAdmin" ${form.isAdmin
-                                        ? 'checked' : '' }>
-                                    <label class="form-check-label text-white">Admin</label>
+                                <div class="mb-3">
+                                    <label class="text-white d-block mb-2">Vai trò</label>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" name="isAdmin" value="false"
+                                            id="roleUser" ${!form.isAdmin ? 'checked' : '' }>
+                                        <label class="form-check-label text-white" for="roleUser">
+                                            <i class="fa-solid fa-user me-1"></i>User
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" name="isAdmin" value="true"
+                                            id="roleAdmin" ${form.isAdmin ? 'checked' : '' }>
+                                        <label class="form-check-label text-white" for="roleAdmin">
+                                            <i class="fa-solid fa-user-shield me-1"></i>Admin
+                                        </label>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-danger w-100">
